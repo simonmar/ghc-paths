@@ -1,0 +1,74 @@
+import Distribution.Simple
+import Distribution.Simple.Setup
+import Distribution.PackageDescription
+import Distribution.Simple.LocalBuildInfo
+import Distribution.InstalledPackageInfo
+import Distribution.Simple.Program
+import Distribution.Simple.PackageIndex as Pkg
+
+import System.Exit
+import System.IO
+import Data.IORef
+import Data.Char
+import Data.List
+import Data.Maybe
+
+main = defaultMainWithHooks simpleUserHooks {
+                      postConf    = defaultPostConf,
+                      preBuild    = readHook,
+                      preMakefile = readHook,
+                      preClean    = readHook,
+                      preCopy     = readHook,
+                      preInst     = readHook,
+                      preHscolour = readHook,
+                      preHaddock  = readHook,
+                      preReg      = readHook,
+                      preUnreg    = readHook
+                     }
+  where
+    defaultPostConf :: Args -> ConfigFlags -> PackageDescription -> LocalBuildInfo -> IO ()
+    defaultPostConf args flags pkgdescr lbi = do
+      libdir_ <- rawSystemProgramStdoutConf (fromFlag (configVerbosity flags))
+                     ghcProgram (withPrograms lbi) ["--print-libdir"]
+      let libdir = reverse $ dropWhile isSpace $ reverse libdir_
+
+          ghc_pkg = case lookupProgram ghcPkgProgram (withPrograms lbi) of
+                          Just p  -> programPath p
+                          Nothing -> error "ghc-pkg was not found"
+          ghc     = case lookupProgram ghcProgram (withPrograms lbi) of
+                          Just p  -> programPath p
+                          Nothing -> error "ghc was not found"
+
+          -- figure out docdir from base's haddock-html field
+          base_pkg = case searchByName (installedPkgs lbi) "base" of
+                        None -> error "no base package"
+                        Unambiguous (x:_) -> x
+                        _ -> error "base ambiguous"
+          base_html = case haddockHTMLs base_pkg of
+                        [] -> ""
+                        (x:_) -> x
+          docdir = fromMaybe base_html $
+                        fmap reverse (stripPrefix (reverse "/libraries/base")
+                                                  (reverse base_html))
+
+      let buildinfo = emptyBuildInfo{
+               cppOptions = ["-DGHC_PATHS_GHC_PKG=\"" ++ ghc_pkg ++ "\"",
+                             "-DGHC_PATHS_GHC=\"" ++ ghc ++ "\"",
+                             "-DGHC_PATHS_LIBDIR=\"" ++ libdir ++ "\"",
+                             "-DGHC_PATHS_DOCDIR=\"" ++ docdir ++ "\"" ]
+             }
+      writeFile file (show buildinfo)
+
+    readHook :: Args -> a -> IO HookedBuildInfo
+    readHook _ _ = do
+      str <- readFile file
+      return (Just (read str), [])
+
+file = "ghc-paths.buildinfo"
+
+die :: String -> IO a
+die msg = do
+  hFlush stdout
+  hPutStr stderr msg
+  exitWith (ExitFailure 1)
+
