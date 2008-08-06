@@ -10,7 +10,6 @@ import System.Exit
 import System.IO
 import Data.IORef
 import Data.Char
-import Data.List
 import Data.Maybe
 
 main = defaultMainWithHooks simpleUserHooks {
@@ -72,3 +71,8 @@ die msg = do
   hPutStr stderr msg
   exitWith (ExitFailure 1)
 
+stripPrefix :: Eq a => [a] -> [a] -> Maybe [a]
+stripPrefix [] ys = Just ys
+stripPrefix (x:xs) (y:ys)
+ | x == y = stripPrefix xs ys
+stripPrefix _ _ = Nothing
