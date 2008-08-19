@@ -51,10 +51,10 @@ main = defaultMainWithHooks simpleUserHooks {
                                                   (reverse base_html))
 
       let buildinfo = emptyBuildInfo{
-               cppOptions = ["-DGHC_PATHS_GHC_PKG=\"" ++ ghc_pkg ++ "\"",
-                             "-DGHC_PATHS_GHC=\"" ++ ghc ++ "\"",
-                             "-DGHC_PATHS_LIBDIR=\"" ++ libdir ++ "\"",
-                             "-DGHC_PATHS_DOCDIR=\"" ++ docdir ++ "\"" ]
+               cppOptions = ["-DGHC_PATHS_GHC_PKG=" ++ show ghc_pkg,
+                             "-DGHC_PATHS_GHC=" ++ show ghc,
+                             "-DGHC_PATHS_LIBDIR=" ++ show libdir,
+                             "-DGHC_PATHS_DOCDIR=" ++ show docdir ]
              }
       writeFile file (show buildinfo)
 
