@@ -16,7 +16,6 @@ main = defaultMainWithHooks simpleUserHooks {
                       postConf    = defaultPostConf,
                       preBuild    = readHook,
                       preMakefile = readHook,
-                      preClean    = readHook,
                       preCopy     = readHook,
                       preInst     = readHook,
                       preHscolour = readHook,
