@@ -15,7 +15,6 @@ import Data.Maybe
 main = defaultMainWithHooks simpleUserHooks {
                       postConf    = defaultPostConf,
                       preBuild    = readHook,
-                      preMakefile = readHook,
                       preCopy     = readHook,
                       preInst     = readHook,
                       preHscolour = readHook,
