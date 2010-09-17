@@ -4,7 +4,7 @@ import Distribution.PackageDescription
 import Distribution.Simple.LocalBuildInfo
 import Distribution.InstalledPackageInfo
 import Distribution.Simple.Program
-import Distribution.Simple.PackageIndex as Pkg
+import qualified Distribution.Simple.PackageIndex as Pkg
 
 import System.Exit
 import System.IO
@@ -37,9 +37,9 @@ main = defaultMainWithHooks simpleUserHooks {
                           Nothing -> error "ghc was not found"
 
           -- figure out docdir from base's haddock-html field
-          base_pkg = case searchByName (installedPkgs lbi) "base" of
-                        None -> error "no base package"
-                        Unambiguous (x:_) -> x
+          base_pkg = case Pkg.searchByName (installedPkgs lbi) "base" of
+                        Pkg.None -> error "no base package"
+                        Pkg.Unambiguous (x:_) -> x
                         _ -> error "base ambiguous"
           base_html = case haddockHTMLs base_pkg of
                         [] -> ""
