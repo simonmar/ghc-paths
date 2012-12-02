@@ -11,6 +11,7 @@ import System.IO
 import Data.IORef
 import Data.Char
 import Data.Maybe
+import System.Directory
 
 main = defaultMainWithHooks simpleUserHooks {
                       postConf    = defaultPostConf,
@@ -47,10 +48,12 @@ main = defaultMainWithHooks simpleUserHooks {
           docdir = fromMaybe base_html $
                         fmap reverse (stripPrefix (reverse "/libraries/base")
                                                   (reverse base_html))
+      c_ghc_pkg <- canonicalizePath ghc_pkg
+      c_ghc     <- canonicalizePath ghc
 
       let buildinfo = emptyBuildInfo{
-               cppOptions = ["-DGHC_PATHS_GHC_PKG=" ++ show ghc_pkg,
-                             "-DGHC_PATHS_GHC=" ++ show ghc,
+               cppOptions = ["-DGHC_PATHS_GHC_PKG=" ++ show c_ghc_pkg,
+                             "-DGHC_PATHS_GHC=" ++ show c_ghc,
                              "-DGHC_PATHS_LIBDIR=" ++ show libdir,
                              "-DGHC_PATHS_DOCDIR=" ++ show docdir ]
              }
