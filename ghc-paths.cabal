@@ -17,6 +17,5 @@ library
         exposed-modules: GHC.Paths
 
 source-repository head
-  type:     darcs
-  location: http://darcs.haskell.org/ghc-paths
-
+  type:     git
+  location: https://github.com/simonmar/ghc-paths
