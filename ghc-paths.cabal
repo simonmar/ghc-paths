@@ -12,6 +12,9 @@ category: Development
 cabal-version: >= 1.6
 build-type: Custom
 
+custom-setup
+        setup-depends: base >= 3 && < 5, Cabal >= 1.6 && <2.0, directory
+
 library
         build-depends: base >= 3 && < 5
         exposed-modules: GHC.Paths
