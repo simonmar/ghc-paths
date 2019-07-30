@@ -1,5 +1,11 @@
 {-# LANGUAGE CPP #-}
 
+-- if MIN_VERSION_Cabal is not defined, then most likely we have old
+-- GHC or/and old cabal-install in use.
+#ifndef MIN_VERSION_Cabal
+#define MIN_VERSION_Cabal(x,y,z) 0
+#endif
+
 import Distribution.Simple
 import Distribution.Simple.Setup
 import Distribution.PackageDescription
