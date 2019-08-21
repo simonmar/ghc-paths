@@ -1,5 +1,5 @@
 name: ghc-paths
-version: 0.1.0.11
+version: 0.1.0.12
 license: BSD3
 license-file: LICENSE
 copyright: (c) Simon Marlow
