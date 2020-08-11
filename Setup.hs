@@ -64,10 +64,10 @@ main = defaultMainWithHooks simpleUserHooks {
       c_ghc     <- canonicalizePath ghc
 
       let buildinfo = emptyBuildInfo{
-               cppOptions = ["-DGHC_PATHS_GHC_PKG=" ++ show c_ghc_pkg,
-                             "-DGHC_PATHS_GHC=" ++ show c_ghc,
-                             "-DGHC_PATHS_LIBDIR=" ++ show libdir,
-                             "-DGHC_PATHS_DOCDIR=" ++ show docdir ]
+               cppOptions = ["-DGHC_PATHS_GHC_PKG=" ++ quote c_ghc_pkg,
+                             "-DGHC_PATHS_GHC=" ++ quote c_ghc,
+                             "-DGHC_PATHS_LIBDIR=" ++ quote libdir,
+                             "-DGHC_PATHS_DOCDIR=" ++ quote docdir ]
              }
       writeFile file (show buildinfo)
 
@@ -89,3 +89,14 @@ stripPrefix [] ys = Just ys
 stripPrefix (x:xs) (y:ys)
  | x == y = stripPrefix xs ys
 stripPrefix _ _ = Nothing
+
+quote :: String -> String
+#ifdef mingw32_HOST_OS
+quote s =
+  "\"" ++ (s >>= escape) ++ "\""
+  where
+    escape '"' = "\\\""
+    escape c = [c]
+#else
+quote = show
+#endif
