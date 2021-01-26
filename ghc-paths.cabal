@@ -9,11 +9,11 @@ stability: stable
 synopsis: Knowledge of GHC's installation directories
 description: Knowledge of GHC's installation directories
 category: Development
-cabal-version: >= 1.6
+cabal-version: >= 1.8
 build-type: Custom
 
 custom-setup
-        setup-depends: base >= 3 && < 5, Cabal >= 1.6 && <3.3, directory
+        setup-depends: base >= 3 && < 5, Cabal >= 1.6 && <3.4, directory
 
 library
         build-depends: base >= 3 && < 5
