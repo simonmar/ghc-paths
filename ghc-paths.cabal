@@ -13,7 +13,7 @@ cabal-version: >= 1.8
 build-type: Custom
 
 custom-setup
-        setup-depends: base >= 3 && < 5, Cabal >= 1.6 && <3.7, directory
+        setup-depends: base >= 3 && < 5, Cabal >= 1.6 && <3.10, directory
 
 library
         build-depends: base >= 3 && < 5
