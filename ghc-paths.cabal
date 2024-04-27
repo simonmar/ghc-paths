@@ -1,5 +1,6 @@
 name: ghc-paths
 version: 0.1.0.12
+x-revision: 6
 license: BSD3
 license-file: LICENSE
 copyright: (c) Simon Marlow
@@ -12,8 +13,26 @@ category: Development
 cabal-version: >= 1.8
 build-type: Custom
 
+
+tested-with:
+  GHC == 9.10.0
+  GHC == 9.8.2
+  GHC == 9.6.5
+  GHC == 9.4.8
+  GHC == 9.2.8
+  GHC == 9.0.2
+  GHC == 8.10.7
+  GHC == 8.8.4
+  GHC == 8.6.5
+  GHC == 8.4.4
+  GHC == 8.2.2
+  GHC == 8.0.2
+
 custom-setup
-        setup-depends: base >= 3 && < 5, Cabal >= 1.6 && <3.7, directory
+        setup-depends:
+            base  >= 3   && < 5
+          , Cabal >= 1.6 && < 3.13
+          , directory
 
 library
         build-depends: base >= 3 && < 5

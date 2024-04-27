@@ -1,0 +1,7 @@
+branches: master
+
+-- cabal check fails since this package uses the legacy cabal version 1.8
+cabal-check: False
+
+-- haddock for GHC 8.0 fails with unrecognized 'haddock' option `--foreign-libraries'
+haddock: >=8.2
