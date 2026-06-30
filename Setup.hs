@@ -12,6 +12,7 @@ import Distribution.PackageDescription
 import Distribution.Simple.LocalBuildInfo
 import Distribution.InstalledPackageInfo
 import Distribution.Simple.Program
+import Distribution.Verbosity
 import qualified Distribution.Simple.PackageIndex as Pkg
 
 import System.Exit
@@ -34,7 +35,9 @@ main = defaultMainWithHooks simpleUserHooks {
   where
     defaultPostConf :: Args -> ConfigFlags -> PackageDescription -> LocalBuildInfo -> IO ()
     defaultPostConf args flags pkgdescr lbi = do
-#if MIN_VERSION_Cabal(2,3,0)
+#if MIN_VERSION_Cabal(3,17,0)
+      libdir_ <- getDbProgramOutput (mkVerbosity defaultVerbosityHandles (fromFlag (configVerbosity flags)))
+#elif MIN_VERSION_Cabal(2,3,0)
       libdir_ <- getDbProgramOutput (fromFlag (configVerbosity flags))
 #else
       libdir_ <- rawSystemProgramStdoutConf (fromFlag (configVerbosity flags))
