@@ -1,7 +1,7 @@
+cabal-version: 3.14
 name: ghc-paths
-version: 0.1.0.12
-x-revision: 7
-license: BSD3
+version: 0.1.0.13
+license: BSD-3-Clause
 license-file: LICENSE
 copyright: (c) Simon Marlow
 author: Simon Marlow
@@ -10,34 +10,27 @@ stability: stable
 synopsis: Knowledge of GHC's installation directories
 description: Knowledge of GHC's installation directories
 category: Development
-cabal-version: >= 1.8
-build-type: Custom
-
+build-type: Hooks
 
 tested-with:
+  GHC == 9.14.1
   GHC == 9.12.2
   GHC == 9.10.2
   GHC == 9.8.4
   GHC == 9.6.7
-  GHC == 9.4.8
-  GHC == 9.2.8
-  GHC == 9.0.2
-  GHC == 8.10.7
-  GHC == 8.8.4
-  GHC == 8.6.5
-  GHC == 8.4.4
-  GHC == 8.2.2
-  GHC == 8.0.2
 
 custom-setup
         setup-depends:
-            base  >= 3   && < 5
-          , Cabal >= 1.6 && < 3.15
+            base        >= 4.18 && < 5
+          , Cabal       >= 3.16
+          , Cabal-hooks >= 3.16
           , directory
+          , process
 
 library
         build-depends: base >= 3 && < 5
         exposed-modules: GHC.Paths
+        default-language: Haskell2010
 
 source-repository head
   type:     git
