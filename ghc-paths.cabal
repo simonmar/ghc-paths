@@ -1,6 +1,6 @@
 cabal-version: 3.14
 name: ghc-paths
-version: 0.1.0.12
+version: 0.1.0.13
 license: BSD-3-Clause
 license-file: LICENSE
 copyright: (c) Simon Marlow
@@ -13,6 +13,7 @@ category: Development
 build-type: Hooks
 
 tested-with:
+  GHC == 9.14.1
   GHC == 9.12.2
   GHC == 9.10.2
   GHC == 9.8.4
@@ -21,8 +22,8 @@ tested-with:
 custom-setup
         setup-depends:
             base        >= 4.18 && < 5
-          , Cabal       >= 3.18
-          , Cabal-hooks >= 3.18
+          , Cabal       >= 3.16
+          , Cabal-hooks >= 3.16
           , directory
           , process
 
